@@ -99,8 +99,8 @@ class TeamPage:
             
             :return: str: префикса id задач первого проекта 
         """
-        
-        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-test="ProjectCard"]')))
+        card_locator = 'div[data-test="ProjectCard"]'
+        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, card_locator)))
         return self.__driver.find_elements(By.CSS_SELECTOR, 'div[data-test="ProjectCard"] .text-secondary')[0].text  
     
     @allure.step('[UI]. Получение текст в секции проектов')
