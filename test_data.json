@@ -1,0 +1,20 @@
+{
+  "email": "litana3049@dcbin.com",
+  "password": "testSky2024!",
+  "company": "SkyPro",
+  "user_name": "Test user",
+  "company_id": "82e9a1e7-d4c0-42e5-8de8-2bfd4456c2c0",
+  "api_key": "xjUjowg4xDkiW1d4I4cWTHMHz03YGffZNWWNBBHiN07vqryIlmrAh4kez7AzGiND",
+  "role_admin": "admin",
+  "project_title": "Новый проект",
+  "bg_active_color": "rgba(63, 139, 253, 1)",
+  "completed_task_title_color": "rgba(177, 186, 205, 1)",
+  "new_column_color": 16,
+  "error_description_empty_project_title": "title should not be empty",
+  "error_bad_request": "Bad Request",
+  "error_description_unauth": "Unauthorized",
+  "error_unauth": "Unauthorized",
+  "error_connection": "Невозможно получить ответ от сервера, проверьте подключение к интернету.",
+  "task_title": "Диплом",
+  "new_column_title": "Обновленное название"
+}
