@@ -185,9 +185,12 @@ class TeamPage:
                         
             :return: None
         """
-        btn_locator = 'div.relative div[role="button"].bg-action-default'
-        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, btn_locator)))
-        self.__driver.find_elements(By.CSS_SELECTOR, 'div.relative div[role="button"]')[1].click()
+        default_btn_locator = 'div.relative div[role="button"].bg-action-default'
+        active_btn_locator = 'div.relative div[role="button"]'
+        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, default_btn_locator)))
+        self.__driver.find_elements(By.CSS_SELECTOR, active_btn_locator)[1].click()
+        WebDriverWait(self.__driver, 2).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, 'div[class="project-participants__popup top-0"]')))
+        
     
     @allure.step('[UI]. Нажатие на иконку Три точки у проекта "{project_title}"')
     def click_three_dot(self, project_title: str) -> None:

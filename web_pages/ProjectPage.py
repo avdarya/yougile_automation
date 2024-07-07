@@ -51,11 +51,14 @@ class ProjectPage:
             :return: None
         """
         task_locator = 'textarea[data-test="board-task-input-name"]'
+        textarea_locator = 'textarea[data-test="board-task-input-name"]'
         WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, task_locator)))
         
         self.__driver.find_element(By.CSS_SELECTOR, task_locator).send_keys(task_title)
          
         self.__driver.find_element(By.CSS_SELECTOR, task_locator).send_keys(Keys.RETURN)
+        
+        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, textarea_locator)))
         
     @allure.step('[UI]. Нажатие на вкладку Доски "{board_title}"')      
     def click_board(self, board_title: str) -> None:
