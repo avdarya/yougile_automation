@@ -245,7 +245,7 @@ class UITest:
         project_page.click_mark_completed()
         
         task_api.get_task_by_id(task_id)
-        task_api.get_task_by_id(task_id)
+        project_api.get_projects()
         ui_title_status_color = project_page.get_title_status_color(column_title, task_title)
         
         task_response = task_api.get_task_by_id(task_id)
