@@ -116,7 +116,7 @@ class UITest:
         
         team_page.click_three_dot(project_title)
         team_page.click_trash()
-        team_page.click_ok()
+        team_page.click_delete()
         
         project_api.get_project_by_id(project_id).json()
         project_api_data = project_api.get_project_by_id(project_id).json()

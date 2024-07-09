@@ -217,16 +217,16 @@ class TeamPage:
         WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[role="tooltip"]')))
         self.__driver.find_elements(By.CSS_SELECTOR, 'div[role="tooltip"] .cursor-pointer')[5].click()      
     
-    @allure.step('[UI]. Нажатие на кнопку Ok')
-    def click_ok(self) -> None:
+    @allure.step('[UI]. Нажатие на кнопку Удалить')
+    def click_delete(self) -> None:
         """
-            Нажать на кнопку Ok
+            Нажать на кнопку Удалить
                         
             :return: None
         """
-        locator = 'div.fixed div.text-action-default div.truncate'
-        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, locator)))
-        self.__driver.find_element(By.CSS_SELECTOR, locator).click()
+        locator = '//div[@class="text-left flex items-center justify-center w-full"][contains(text(),"Удалить")]'
+        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.XPATH, locator)))
+        self.__driver.find_element(By.XPATH, locator).click()
     
     @allure.step('[UI]. Нажатие на карточку проекта "{project_title}"')  
     def click_project_card(self, project_title: str) -> None:
