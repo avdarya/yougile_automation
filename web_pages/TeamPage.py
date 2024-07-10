@@ -45,10 +45,11 @@ class TeamPage:
             
             :return: None
         """
-        btn_locator = 'div[class="loggedin-below loggedin-page--projects appear"]'
-        self.__driver.find_element(By.CSS_SELECTOR, 'form.login-form div[role="button"]').click() 
-        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, btn_locator)))
-              
+        page_locator = 'div[class="loggedin-below loggedin-page--projects appear"]'
+        btn_locator = 'form.login-form div[role="button"]'
+        self.__driver.find_element(By.CSS_SELECTOR, btn_locator).click() 
+        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, page_locator)))
+        
     @allure.step('[UI]. Получение email сотрудника') 
     def get_user_email(self) -> str:
         """
@@ -179,19 +180,21 @@ class TeamPage:
         self.__driver.find_element(By.XPATH, '//span[contains(@class, "truncate") and text() = "Добавить проект"]').click()
     
     @allure.step('[UI]. Нажатие на кнопку Создать проект')
-    def click_create_project(self) -> None:
+    def click_create_project(self, project_title: str) -> None:
         """
             Нажать на кнопку Создать проект
+             
+            :param project_title: str: название проекта
                         
             :return: None
         """
         default_btn_locator = 'div.relative div[role="button"].bg-action-default'
         active_btn_locator = 'div.relative div[role="button"]'
+        new_card_locator = f'//div[contains(text(),"{project_title}")]'
         WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, default_btn_locator)))
         self.__driver.find_elements(By.CSS_SELECTOR, active_btn_locator)[1].click()
-        WebDriverWait(self.__driver, 2).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, 'div[class="project-participants__popup top-0"]')))
+        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.XPATH, new_card_locator)))
         
-    
     @allure.step('[UI]. Нажатие на иконку Три точки у проекта "{project_title}"')
     def click_three_dot(self, project_title: str) -> None:
         """
@@ -217,16 +220,21 @@ class TeamPage:
         WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[role="tooltip"]')))
         self.__driver.find_elements(By.CSS_SELECTOR, 'div[role="tooltip"] .cursor-pointer')[5].click()      
     
-    @allure.step('[UI]. Нажатие на кнопку Удалить')
-    def click_delete(self) -> None:
+    @allure.step('[UI]. Нажатие на кнопку Удалить в контекстном меню')
+    def click_delete(self, project_title: str) -> None:
         """
-            Нажать на кнопку Удалить
+            Нажать на кнопку Удалить в контекстном меню
+            
+            :param project_title: str: название проекта
                         
             :return: None
         """
+        
         locator = '//div[@class="text-left flex items-center justify-center w-full"][contains(text(),"Удалить")]'
+        card_locator = f'//div[contains(text(),"{project_title}")]'
         WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.XPATH, locator)))
         self.__driver.find_element(By.XPATH, locator).click()
+        WebDriverWait(self.__driver, self.__timeout).until(EC.invisibility_of_element_located((By.XPATH, card_locator)))
     
     @allure.step('[UI]. Нажатие на карточку проекта "{project_title}"')  
     def click_project_card(self, project_title: str) -> None:

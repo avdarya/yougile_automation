@@ -42,7 +42,7 @@ class ProjectPage:
         return titles 
     
     @allure.step('[UI]. Ввести название задачи - {task_title}')  
-    def set_task_title(self, task_title: str) -> None:
+    def add_task(self, task_title: str) -> None:
         """
             Заполнить поле Название задачи и нажать Enter
             
@@ -51,14 +51,13 @@ class ProjectPage:
             :return: None
         """
         task_locator = 'textarea[data-test="board-task-input-name"]'
-        textarea_locator = 'textarea[data-test="board-task-input-name"]'
+        new_task_locator = f'//span[normalize-space()="{task_title}"]'
         WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, task_locator)))
-        
-        self.__driver.find_element(By.CSS_SELECTOR, task_locator).send_keys(task_title)
-         
+                
+        self.__driver.find_element(By.CSS_SELECTOR, task_locator).send_keys(task_title)         
         self.__driver.find_element(By.CSS_SELECTOR, task_locator).send_keys(Keys.RETURN)
         
-        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, textarea_locator)))
+        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.XPATH, new_task_locator)))
         
     @allure.step('[UI]. Нажатие на вкладку Доски "{board_title}"')      
     def click_board(self, board_title: str) -> None:
@@ -137,6 +136,7 @@ class ProjectPage:
                     if task_title in task_cont.text:
                         self.__driver.save_screenshot(f'./screenshots/done_task({task_title}).png') 
                         xpath_locator = f"//span[contains(text(),'{task_title}')]"
+                        WebDriverWait(self.__driver, self.__timeout).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.text-placeholder-new')))
                         title_status_color = self.__driver.find_element(By.XPATH, xpath_locator).value_of_css_property('color')
         return title_status_color
         

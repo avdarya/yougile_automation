@@ -29,5 +29,6 @@ class UserApi:
             
             :return: str: id пользователя
         """
+ 
         return requests.get(self.__url, headers=self.__headers, params={'email':email}).json()['content'][0]['id']
       

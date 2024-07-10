@@ -11,12 +11,12 @@ class ConfigProvider:
     def get(self, section: str, prop: str):
         return self.config[section].get(prop)
       
-    def get_int(self, section: str, prop: str):
+    def get_int(self, section: str, prop: str) -> int:
         return self.config[section].getint(prop)
        
-    def get_ui_url(self):
+    def get_ui_url(self) -> str:
         return self.config['ui'].get('base_url') 
     
-    def get_api_url(self):
+    def get_api_url(self) -> str:
         return self.config['api'].get('base_url')    
     

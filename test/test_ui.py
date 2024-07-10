@@ -1,4 +1,3 @@
-import pytest
 import allure
 import random
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -66,7 +65,7 @@ class UITest:
         
         ui_btn_bg_color = team_page.get_bg_action_color()
 
-        team_page.click_create_project()
+        team_page.click_create_project(project_title)
         
         ui_title = team_page.get_project_title()
         ui_prefix = team_page.get_prefix_id_task()
@@ -116,9 +115,8 @@ class UITest:
         
         team_page.click_three_dot(project_title)
         team_page.click_trash()
-        team_page.click_delete()
+        team_page.click_delete(project_title)
         
-        project_api.get_project_by_id(project_id).json()
         project_api_data = project_api.get_project_by_id(project_id).json()
         
         ui_project_card_titles = team_page.get_project_section_text()
@@ -173,8 +171,8 @@ class UITest:
         project_page.click_board(board_title)
 
         project_page.click_add_task(column_title)
-        project_page.set_task_title(test_data.get('task_title'))
-        task_api.get_tasks_by_column(column_id)
+        project_page.add_task(test_data.get('task_title'))
+
         ui_task_titles = ''.join(project_page.get_task_titles(column_title)) 
         
         api_tasks = task_api.get_tasks_by_column(column_id).json()['content']
@@ -205,7 +203,7 @@ class UITest:
     @allure.feature('Кнопка Отметить выполненной в контекстном меню задачи')   
     def complete_task_test(
         self, 
-        auth_browser, 
+        auth_browser,
         test_data: dict,
         user_api: UserApi,
         project_api: ProjectApi, 
@@ -217,7 +215,7 @@ class UITest:
         delete_utility_board: dict,
         delete_utility_column: dict,
         delete_utility_task: dict
-    ):
+    ):        
         with allure.step('Добавление проекта администратору'):
             project_title = 'Проект ' + generate_random_str + ' ' + str(random.randint(0, 99999))
             admin_id = user_api.get_user_id(test_data.get('email'))
@@ -244,8 +242,6 @@ class UITest:
         project_page.click_three_dot(column_title, task_title)
         project_page.click_mark_completed()
         
-        task_api.get_task_by_id(task_id)
-        project_api.get_projects()
         ui_title_status_color = project_page.get_title_status_color(column_title, task_title)
         
         task_response = task_api.get_task_by_id(task_id)

@@ -18,13 +18,12 @@ from configuration.ConfigProvider import ConfigProvider
 from testdata.DataProvider import DataProvider
 from web_pages.TeamPage import TeamPage
 
-@pytest.fixture
+@pytest.fixture()
 def browser() -> Generator[WebDriver]:
-    '''open browser'''
     with allure.step('Открыть и настроить браузер'):
-      
-        timeout = ConfigProvider().get_int('ui', 'timeout')
-        browser_name = ConfigProvider().get('ui', 'browser_name')
+        config = ConfigProvider()
+        timeout = config.get_int('ui', 'timeout')
+        browser_name = config.get('ui', 'browser_name')
         
         if browser_name == 'chrome':
             browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
@@ -49,7 +48,7 @@ def auth_browser(browser, test_data: DataProvider) -> WebDriver:
         team_page.set_password(test_data.get('password'))
         team_page.login()
         return browser 
-           
+    
 @pytest.fixture(scope="session")
 def auth_api() -> AuthApi:
     data_provider = DataProvider()
@@ -75,11 +74,9 @@ def column_api() -> ColumnApi:
 def task_api() -> TaskApi:
     return TaskApi(ConfigProvider().get_api_url(), DataProvider().get_api_key())
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def test_data() -> DataProvider:
     return DataProvider()
-
-
 
 @pytest.fixture
 def create_utility_project(
